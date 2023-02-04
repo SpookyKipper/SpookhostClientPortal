@@ -24,6 +24,6 @@ $lang['err_404'] = '找不到此網頁';
 $lang['err_500'] = '服務不可用';
 $lang['err_503'] = '你沒權限去瀏覽此網頁';
 $lang['upgrade_hosting'] = '升級到高級託管';
-$lang['csr_gen'] = 'CSR 創建器';
+$lang['csr_gen'] = 'CSR 創建工具';
 
 ?>

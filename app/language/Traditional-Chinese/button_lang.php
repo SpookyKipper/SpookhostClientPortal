@@ -25,12 +25,12 @@ $lang['control_panel'] = '控制面板';
 $lang['file_manager'] = '檔案管理員';
 $lang['reactivate'] = '重新啟用';
 $lang['settings'] = '設定';
-$lang['open_ticket'] = '打開服務單';
+$lang['open_ticket'] = '打開客服單';
 $lang['delete'] = '刪除';
 $lang['cancel'] = '取消';
 $lang['here'] = '這裡';
 $lang['done'] = '完成';
-$lang['close_ticket'] = '關閉服務單';
+$lang['close_ticket'] = '關閉客服單';
 $lang['add_reply'] = '新增回覆';
 $lang['redirect_now'] = '重新定向';
 
