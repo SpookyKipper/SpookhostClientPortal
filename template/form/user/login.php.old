@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login - Spookhost</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background: #f6f5f7;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-family: 'Montserrat', sans-serif;
+	height: 100vh;
+	margin: -20px 0 50px;
+}
+
+h1 {
+	font-weight: bold;
+	margin: 0;
+}
+
+h2 {
+	text-align: center;
+}
+
+p {
+	font-size: 14px;
+	font-weight: 100;
+	line-height: 20px;
+	letter-spacing: 0.5px;
+	margin: 20px 0 30px;
+}
+
+span {
+	font-size: 12px;
+}
+
+a {
+	color: #333;
+	font-size: 14px;
+	text-decoration: none;
+	margin: 15px 0;
+}
+
+button {
+	border-radius: 20px;
+	border: 1px solid #6F65DC;
+	background-color: #6F65DC;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+button:active {
+	transform: scale(0.95);
+}
+
+button:focus {
+	outline: none;
+}
+
+button.ghost {
+	background-color: transparent;
+	border-color: #FFFFFF;
+}
+
+form {
+	background-color: #FFFFFF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	text-align: center;
+}
+
+input {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.container {
+	background-color: #fff;
+	border-radius: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+	position: relative;
+	overflow: hidden;
+	width: 768px;
+	max-width: 100%;
+	min-height: 480px;
+}
+
+.form-container {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+	left: 0;
+	width: 50%;
+	z-index: 2;
+}
+
+.container.right-panel-active .sign-in-container {
+	transform: translateX(100%);
+    
+}
+
+
+.sign-up-container {
+	left: 0;
+	width: 50%;
+	opacity: 0;
+	z-index: 1;
+}
+
+.container.right-panel-active .sign-up-container {
+	transform: translateX(100%);
+	opacity: 1;
+	z-index: 5;
+	animation: show 0.6s;
+}
+
+@keyframes show {
+	0%, 49.99% {
+		opacity: 0;
+		z-index: 1;
+	}
+	
+	50%, 100% {
+		opacity: 1;
+		z-index: 5;
+	}
+}
+
+.overlay-container {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 50%;
+	height: 100%;
+	overflow: hidden;
+	transition: transform 0.6s ease-in-out;
+	z-index: 100;
+}
+
+.container.right-panel-active .overlay-container{
+	transform: translateX(-100%);
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    background: linear-gradient(0deg, transparent, transparent, #403987);
+    animation: formanimation 6s liner infinite;
+}
+
+@keyframes formanimation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.overlay {
+	background: #403987;
+	background: -webkit-linear-gradient(to right, #6F65DC, #403987);
+	background: linear-gradient(to right, #6F65DC, #403987);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 0 0;
+	color: #FFFFFF;
+	position: relative;
+	left: -100%;
+	height: 100%;
+	width: 200%;
+  	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+
+.container.right-panel-active .overlay {
+  	transform: translateX(50%);
+}
+
+.overlay-panel {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 40px;
+	text-align: center;
+	top: 0;
+	height: 100%;
+	width: 50%;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+.inputbox {
+    position: relative;
+}
+
+.inputbox input {
+    position: relative;
+    color: white;
+    background-color: #6F65DC;
+    border-radius: 10px;
+   /*  border: none;*/
+    outline: none;
+}
+
+.inputbox span {
+    position: absolute;
+    left: 0;
+    padding: 20px 10px 10px;
+    font-size: 1em;
+    color: white;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+}
+
+.inputbox input:not(:placeholder-shown) ~ span,
+.inputbox input:focus ~span {
+    color: black;
+    transform: translateY(-34px);
+    font-size: 0.85em;
+    opacity: 1;
+}
+.inputbox i {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #403987;
+    border-radius: 4px;
+    transition: 0.5s;
+    pointer-events: none;
+    z-index: 9
+}
+
+.inputbox input:not(:placeholder-shown) ~ i,
+.inputbox input:focus ~ i {
+    height: 44px;
+}
+
+
+.overlay-left {
+	transform: translateX(-20%);
+}
+
+.container.right-panel-active .overlay-left {
+	transform: translateX(0);
+}
+
+.overlay-right {
+	right: 0;
+	transform: translateX(0);
+}
+
+.container.right-panel-active .overlay-right {
+	transform: translateX(20%);
+}
+
+.social-container {
+	margin: 20px 0;
+}
+
+.social-container a {
+	border: 1px solid #DDDDDD;
+	border-radius: 50%;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 5px;
+	height: 40px;
+	width: 40px;
+}
+
+footer {
+    background-color: #222;
+    color: #fff;
+    font-size: 14px;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+}
+
+footer p {
+    margin: 10px 0;
+}
+
+footer i {
+    color: red;
+}
+
+footer a {
+    color: #3c97bf;
+    text-decoration: none;
+}
+
+.mobile-text {
+	display: none;
+}
+
+
+.overlay-panel {
+	display: flex;
+}
+@media screen and (max-width: 760px) {
+    .overlay-container {
+        width: 0;
+    }
+    .form-container {
+    	display: block;
+    	text-align: -webkit-center;
+    	justify-content: center;
+    	width: 100%;
+    }
+    .mobile-text {
+	    display: block;
+    }
+    .container.right-panel-active .sign-up-container {
+	    transform: translateX(0);
+    }
+}
+
+</style>
+</head>
+<body>
+<h2><img src="https://i.imgur.com/XIkaD6x.png" height="50" alt=""></h2>
+
+
+<div class="container " id="container" > <!--class right-panel-active-->
+	<div class="form-container sign-up-container ">
+		 <?= form_open('u/register', ['class' => 'card card-md']) ?>
+	<div class="card-body"  id="sign-up-container">
+    <br>
+		<h1><?= $this->base->text('create_an_account', 'heading') ?></h1>
+        <br>
+<div class="inputbox" style="width: 100%">
+
+			<input type="text" name="name" placeholder=" " required>
+            <span><?= $this->base->text('your_name', 'label') ?></span></div>
+         <br>
+
+<div class="inputbox" style="width: 100%">
+
+			<input type="email" name="email" placeholder=" " required>
+            <span><?= $this->base->text('email_address', 'label') ?></span>
+</div>
+ <br>
+	<div class="inputbox" style="width: 100%">
+
+				<input type="password"  id="password" placeholder=" " name="password" required>
+                <span><?= $this->base->text('password', 'label') ?></span>
+		</div>
+			
+	 <br>
+	<div class="inputbox" style="width: 100%">
+
+				<input type="password"  id="password1" placeholder=" " name="password1" required>
+                <span><?= $this->base->text('confirm_password', 'label') ?></span>
+			</div>
+	
+		<div class="mb-3">
+			<label class="form-check">
+				<input type="checkbox" name="checkbox" value="1" class="form-check-input" required="true" />
+				<span class="form-check-label"><?= $this->base->text('i_agree_to', 'heading') ?> <a href="<?= base_url() ?>e/tos"><?= $this->base->text('tos', 'heading') ?></a></span>
+			</label>
+		</div>
+	  <?php if($this->grc->is_active()):?>
+			<div class="mb-2">
+				<?php if($this->grc->get_type() == "google"):?>
+				<!--	<div class="g-recaptcha" data-sitekey="<?= $this->grc->get_site_key();?>" data-callback="recaptcha_callback"></div>-->
+<div class="cf-turnstile" data-sitekey="<?= $this->grc->get_site_key();?>" data-callback="javascriptCallback" data-theme="light"></div>
+
+
+					<!--<script src='https://www.google.com/recaptcha/api.js' async defer ></script>-->
+				<?php elseif($this->grc->get_type() == "crypto"): ?>
+					<script src='https://verifypow.com/lib/captcha.js' async></script>
+	            	<div class='CRLT-captcha' data-hashes='256' data-key='<?= $this->grc->get_site_key();?>'>
+	                    <em>Loading PoW Captcha...
+	                    <br>
+	                    If it doesn't load, please disable AdBlocker!</em>
+	                </div>
+				<?php elseif($this->grc->get_type() == "human"): ?>
+					<div id='captcha' class='h-captcha' data-sitekey="<?= $this->grc->get_site_key();?>"></div>
+					<script src='https://hcaptcha.com/1/api.js' async defer ></script>
+				<?php endif ?>
+			</div>
+		<?php endif ?>
+			<button type="submit" name="register" value="<?= $this->base->text('register', 'button') ?>"><?= $this->base->text('register', 'button') ?></button><br>
+			<div class="mobile-text">
+		Already have an Account? <u><a href="https://app.spookhost.eu.org/index.php/u/login">Sign In!</a></u><br>
+		</div>
+	
+	</div>
+
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+
+		<?= form_open('u/login', ['class' => 'card card-md']) ?>
+			<h1>Sign in</h1>
+			
+			<h6>&nbsp;</h6>
+
+<div class="inputbox" style="width: 100%">
+			<input type="email" name="email" placeholder=" " required >
+            <span><?= $this->base->text('email_address', 'label') ?></span>
+            </div>
+
+<br><div class="inputbox" style="width: 100%">              
+
+				<input type="password"   id="password"  name="password" placeholder=" " required>
+               <span><?= $this->base->text('password', 'label') ?></span>   </div>
+
+
+			<a href="https://app.spookhost.eu.org/u/forget">Forgot your password?</a>
+		<input type="checkbox" name="checkbox" value="1" style="display:inline" hidden checked></input>	<!--<span class="form-check-label"><?= $this->base->text('remember_me_device', 'heading') ?></span>-->
+            <?php if($this->grc->is_active()):?>
+			<div class="mb-2">
+				<?php if($this->grc->get_type() == "google"):?>
+					<!--<div class="g-recaptcha" data-sitekey="<?= $this->grc->get_site_key();?>" data-callback="recaptcha_callback"></div>
+					<script src='https://www.google.com/recaptcha/api.js' async defer ></script>-->
+                    <div class="cf-turnstile" data-sitekey="<?= $this->grc->get_site_key();?>" data-callback="javascriptCallback" data-theme="light"></div>
+
+				<?php elseif($this->grc->get_type() == "crypto"): ?>
+					<script src='https://verifypow.com/lib/captcha.js' async></script>
+	            	<div class='CRLT-captcha' data-hashes='256' data-key='<?= $this->grc->get_site_key();?>'>
+	                    <em>Loading PoW Captcha...
+	                    <br>
+	                    If it doesn't load, please disable AdBlocker!</em>
+	                </div>
+				<?php elseif($this->grc->get_type() == "human"): ?>
+					<div id='captcha' class='h-captcha' data-sitekey="<?= $this->grc->get_site_key();?>"></div>
+					<script src='https://hcaptcha.com/1/api.js' async defer ></script>
+				<?php endif ?>
+			</div>
+		<?php endif ?>
+			<button type="submit" name="login" value="<?= $this->base->text('signin', 'button') ?>"><?= $this->base->text('signin', 'button') ?></button><br>
+					<div class="mobile-text">
+		Don't have an Account yet? <u><a href="https://app.spookhost.eu.org/index.php/u/register">Sign Up!</a></u>
+		</div>
+		</form>
+
+
+	</div>
+	<!--<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left overlay">
+				<h1>Hello, Friend!</h1>
+				<p>Enter your personal details and start the journey with us.</p>
+				<span>Already have an Account?</span> <br>
+				<button class="ghost" id="signIn">Sign In</button>
+			</div>
+			<div class="overlay-panel overlay-right overlay" >
+            			<div class="alert alert-light" role="alert"  style="color:black">
+                <b>IMPORTANT NOTE</b> All Accounts created before 22 August 2022 will have to perform a <u><a href="https://app.spookhost.eu.org/u/forget">Password Reset</a></u>. Sorry for the Inconvenience.
+            </div>
+				<h1>Welcome Back!</h1>
+				<p>To manage your websites please login with your credentials.</p>
+				<span>Don't have an Account yet?</span> <br>
+				<button type="submit" class="ghost" id="signUp">Sign Up</button>
+			</div>
+		</div>
+	</div>-->
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-right">
+            			<div class="alert alert-light" role="alert"  style="color:black">
+             			   <b>IMPORTANT NOTE</b> All Accounts created before 22 August 2022 will have to perform a <u><a href="https://app.spookhost.eu.org/u/forget">Password Reset</a></u>. Sorry for the Inconvenience.
+         		        </div>
+				<h1>Welcome Back!</h1>
+				<p>To manage your websites please login with your credentials.</p>
+				<span>Don't have an Account yet?</span> <br>
+				<button type="submit" class="ghost" id="signUp">Sign Up</button>
+			</div>
+		
+			<div class="overlay-panel overlay-left">
+				<h1>Hello, Friend!</h1>
+				<p>Enter your personal details and start the journey with us.</p>
+				<span>Already have an Account?</span> <br>
+				<button class="ghost" id="signIn">Sign In</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+const signUpButton = document.getElementById('signUp');
+const signInButton = document.getElementById('signIn');
+const container = document.getElementById('container');
+
+signUpButton.addEventListener('click', () => {
+	container.classList.add("right-panel-active");
+    document.querySelector(".container").style.minHeight = document.getElementById("sign-up-container").clientHeight + 50 + "px" ;
+
+});
+
+signInButton.addEventListener('click', () => {
+	container.classList.remove("right-panel-active");
+    document.querySelector(".container").style.minHeight = "480px";
+});
+</script>
+
+</body></html>

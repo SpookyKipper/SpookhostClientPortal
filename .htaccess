@@ -1,0 +1,11 @@
+php_value display_errors On
+php_value mbstring.http_input auto
+php_value date.timezone America/New_York
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [NC,L] 
+</IfModule>
+Header set Access-Control-Allow-Origin https://portal.spookhost.xyz
