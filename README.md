@@ -1,4 +1,5 @@
 # The Spookhost Client Portal Source
+## I am too lazy to update this thing, many stuff has changed since I published this code.
 This source code is purely for **ACCESSIBILITY**, no support or help will be provided for installing your own instance(s). 
 # Installation
 #### There will be NO HELP OR SUPPORT PROVIDED. The changes I made on this repo may break certain features. There are API Credentials which are not available in the settings page and require custom configuration of the credentials in the code.
